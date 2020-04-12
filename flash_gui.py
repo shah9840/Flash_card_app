@@ -34,6 +34,10 @@ def createdeck():
     label.place(relwidth=1, relheight=0.1, rely=0.4)
     label = tk.Label(frame, text=decklist, font=20)
     label.place(relwidth=1, relheight=0.35, rely=0.5)
+    bt = tk.Button(frame, text="Back", font=20, bg="pink", fg="blue",
+                   command=lambda: main())
+    bt.place(relx=.75, rely=0.89, relwidth=0.16, relheight=0.1)
+
 
 
 def deckedit(entry):
@@ -62,7 +66,7 @@ def deckedit(entry):
     button = tk.Button(frame, text='Exit', font=18,
                        bg='white', fg='black', command=lambda: main())
     button.place(relx=.75, rely=0.889, relwidth=.2, relheight=0.1)
-
+  
 
 def inputdata(qbox, abox, entry):
     q = qbox.get()
@@ -92,6 +96,7 @@ def nexttab():
     ans = "Answer"
     label.config(font=("Courier", 44))
     label['text'] = ans
+   
 
 
 def open_deck():
@@ -109,6 +114,9 @@ def open_deck():
     button = tk.Button(frame, text="Show Answer", font=40,
                        bg='white', fg='black', command=lambda: nexttab())
     button.place(relx=0.35, rely=0.75, relwidth=0.3, relheight=0.2)
+    bt = tk.Button(frame, text="Back", font=20, bg="pink", fg="blue", 
+                command=lambda: main())
+    bt.place(relx=.75, rely=0.85, relwidth=0.16, relheight=0.1)
     root.mainloop()
 
 
@@ -144,6 +152,7 @@ def main():
 def quit():
     database.conn.close()
     root.quit()
+    exit()
 
 
 if __name__ == "__main__":
