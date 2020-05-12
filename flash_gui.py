@@ -11,6 +11,7 @@ backlabel = tk.Label(root, image=backimg)
 backlabel.place(relwidth=1, relheight=1)
 
 
+
 def createdeck():
     decklist = database.fetch()
     backimg = tk.PhotoImage(file='nature.png')
@@ -155,5 +156,29 @@ def quit():
     exit()
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
+
+def intro():
+    backimg = tk.PhotoImage(file='nature.png')
+    backlabel = tk.Label(root, image=backimg)
+    backlabel.place(relwidth=1, relheight=1)
+    button = tk.Button(root, text="Start", font=80,
+                       bg='purple', fg='white', command=lambda: main())
+    button.place(relx=0.55, rely=0.4, relwidth=0.2, relheight=0.1)
+    label = tk.Label(root, font=50, bg='#caf766', fg='green')
+    label.place(relwidth=0.45, relheight=0.18, relx=0.5, rely=0.2)
+    label.config(font=("Courier", 40))
+    label['text'] = "Flash Card World"
+
+    
+    root.mainloop()
+
+intro()
+
+
+
+
+
+
+

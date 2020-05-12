@@ -7,7 +7,7 @@ id integer PRIMARY KEY,
 question text NOT NULL,
 answer text NOT NULL,
 deck text NOT NULL,
-priority integer,
+priority integer, 
 instance integer)''')
 
 def insert(q,a,d):
