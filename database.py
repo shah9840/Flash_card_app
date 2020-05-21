@@ -23,9 +23,9 @@ def fetch():
     return rows
 
 
-def fetch_prio():
+def fetch_prio(x):
     cur = conn.cursor()
-    cur.execute("SELECT question, answer, id FROM stack WHERE priority = 3")
+    cur.execute('''SELECT question, answer, id FROM stack WHERE priority = 3 and deck LIKE ?''',[x])
 
     rows = cur.fetchall()
 
