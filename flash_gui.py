@@ -1,21 +1,22 @@
 import tkinter as tk
 from tkinter import font
 import database
-x="math"
-q, a = database.fetch_prio(x)
+
+cardfontsize=22
+fontype = "Courier"
 backimage= "1366x768.png"
 foreground = "#F8F8F2"
 background = "#282A36"
 bannerred = "#FF5555"
 bannergreen = "#50fa7b"
 banneryellow = "#f1fa8c"
-bannerbg = "#bd93f9"
-bannerfg = "#bfbfbf"
+bannerpurple = "#bd93f9"
+bannergrey = "#bfbfbf"
 bannerblue = "#8be9fd"
 
 
 root = tk.Tk()
-canvas = tk.Canvas(root, height=720, width=1280, bg='white')
+canvas = tk.Canvas(root, height=768, width=1366, bg='white')
 canvas.pack()
 backimg = tk.PhotoImage(file=backimage)
 backlabel = tk.Label(root, image=backimg)
@@ -24,13 +25,7 @@ backlabel.place(relwidth=1, relheight=1)
 
 
 def createdeck():
-    decklist = database.fetch()
-    backimg = tk.PhotoImage(file=backimage)
-    backlabel = tk.Label(root, image=backimg)
-    backlabel.place(relwidth=1, relheight=1)
-    # frame = tk.Frame(root, bg='blue', bd=4)
-    # frame.place(relheight=0.75, relwidth=0.9, relx=0.5, rely=0.1, anchor='n')
-
+    decklist = database.fetch_deck()
     frame = tk.Frame(root, bg=background, bd=4)
     frame.place(relheight=0.75, relwidth=0.9, relx=0.5, rely=0.1, anchor='n')
     label = tk.Label(frame, text='Enter Deck Name',
@@ -39,10 +34,10 @@ def createdeck():
     entry = tk.Entry(frame, bd=2, bg=background, fg='white', font=20)
     entry.place(relwidth=0.4, relheight=0.1, relx=0.33, rely=0.1)
     button = tk.Button(frame, text='Submit', font=20,
-                       bg=bannerfg, fg='black', command=lambda: deckedit(entry))
+                       bg=bannergrey, fg='black', command=lambda: deckedit(entry))
     button.place(relx=0.35, rely=0.26, relwidth=0.2, relheight=0.1)
     label = tk.Label(frame, text='Pre Existing decks are:',
-                     font=20, bg=bannerbg, fg='black')
+                     font=20, bg=bannerpurple, fg='black')
     label.place(relwidth=1, relheight=0.1, rely=0.4)
     label = tk.Label(frame, text=decklist, font=20)
     label.place(relwidth=1, relheight=0.35, rely=0.5)
@@ -53,30 +48,24 @@ def createdeck():
 
 
 def deckedit(entry):
-
     s = entry.get()
-    backimg = tk.PhotoImage(file=backimage)
-    backlabel = tk.Label(root, image=backimg)
-    backlabel.place(relwidth=1, relheight=1)
-    frame = tk.Frame(root, bg='black', bd=4)
+    frame = tk.Frame(root, bg=bannergrey, bd=4)
     frame.place(relheight=0.75, relwidth=0.9, relx=0.5, rely=0.1, anchor='n')
-    # frame = tk.Frame(root, bg='#eeeeee', bd=4)
-    # frame.place(relheight=1, relwidth=1, relx=0.5, rely=0, anchor='n')
-    label = tk.Label(frame, text='Deck: '+s, font=20, bg='blue', fg='white')
+    label = tk.Label(frame, text='Deck: '+s, font=20, bg=background, fg=foreground)
     label.place(relwidth=0.2, relheight=0.1, rely=0, relx=0.4)
-    label = tk.Label(frame, text='Question:', font=24, bg='purple', fg='red')
+    label = tk.Label(frame, text='Question:', font=24, bg=bannerpurple, fg='black')
     label.place(relwidth=1, relheight=0.1, rely=0.15)
     qbox = tk.Entry(frame, bd=2, font=20)
     qbox.place(relwidth=1, relheight=0.2, rely=0.25)
-    label = tk.Label(frame, text='Answer:', font=24, bg='purple', fg='white')
+    label = tk.Label(frame, text='Answer:', font=24, bg=bannerpurple, fg='black')
     label.place(relwidth=1, relheight=0.1, rely=.50)
     abox = tk.Entry(frame, bd=2, font=20)
     abox.place(relwidth=1, relheight=0.2, rely=.6)
     button = tk.Button(frame, text='Submit', font=20,
-                       bg='white', fg='black', command=lambda: inputdata(qbox, abox, entry))
+                       bg=bannergreen, fg='black', command=lambda: inputdata(qbox, abox, entry))
     button.place(relx=0.06, rely=0.889, relwidth=.2, relheight=0.1)
     button = tk.Button(frame, text='Exit', font=18,
-                       bg='white', fg='black', command=lambda: maindeck())
+                       bg=bannerred, fg='black', command=lambda: maindeck())
     button.place(relx=.75, rely=0.889, relwidth=.2, relheight=0.1)
   
 
@@ -87,55 +76,54 @@ def inputdata(qbox, abox, entry):
     database.insert(q, a, d)
     deckedit(entry)
 
+def complete(answer,x):
+    database.prio_update(answer,x)
+    open_deck(id)
 
-def nexttab():
-    
+
+def nexttab(number):
+    column = "answer"
     frame = tk.Frame(root, bg=background, bd=4)
     frame.place(relheight=0.75, relwidth=0.9, relx=0.5, rely=0.1, anchor='n')
     label = tk.Label(frame, font=50, bg=foreground, fg=background)
     label.place(relwidth=1, relheight=0.7)
+    label.config(font=(fontype, cardfontsize))
+    label['text'] = database.fetch(number,column)
+
     button = tk.Button(frame, text="Very Easy", font=40,
-                       bg=bannergreen, fg='black', command=lambda: open_deck())
+                       bg=bannergreen, fg='black', command=lambda: complete(number,0))
     button.place(relx=0.05, rely=0.75, relwidth=0.20, relheight=0.2)
     button = tk.Button(frame, text="Easy", font=40,
-                       bg=bannerblue, fg='black', command=lambda: open_deck())
+                       bg=bannerblue, fg='black', command=lambda: complete(number,1))
     button.place(relx=0.29, rely=0.75, relwidth=0.20, relheight=0.2)
     button = tk.Button(frame, text="Medium", font=40,
-                       bg=banneryellow, fg='black', command=lambda: open_deck())
+                       bg=banneryellow, fg='black', command=lambda: complete(number,2))
     button.place(relx=0.53, rely=0.75, relwidth=0.20, relheight=0.2)
     button = tk.Button(frame, text="Hard", font=40,
-                       bg=bannerred, fg='black', command=lambda: open_deck())
+                       bg=bannerred, fg='black', command=lambda: complete(number,3))
     button.place(relx=0.78, rely=0.75, relwidth=0.20, relheight=0.2)
     
-    label.config(font=("Courier", 44))
-    try:
-        answer = a.pop()
-        label['text'] = answer
-    except:
-        label['text'] = "answer not found"
 
+def define_deck(deck_name):
+    global id
+    id = database.fetch_id(''.join(deck_name))
+    open_deck(id)
 
-
-def open_deck():
-
-    canvas = tk.Canvas(root, height=720, width=1280, bg='white')
-    canvas.pack()
-    backimg = tk.PhotoImage(file=backimage)
-    backlabel = tk.Label(root, image=backimg)
-    backlabel.place(relwidth=1, relheight=1)
-    frame = tk.Frame(root, bg=bannerbg, bd=4)
+def open_deck(id):
+    column = "question"
+    frame = tk.Frame(root, bg=bannerpurple, bd=4)
     frame.place(relheight=0.75, relwidth=0.9, relx=0.5, rely=0.1, anchor='n')
     label = tk.Label(frame, font=50, bg=background, fg=foreground)
     label.place(relwidth=1, relheight=0.7)
-    label.config(font=("Courier", 44))
-    
+    label.config(font=(fontype, cardfontsize))
     try:
-        question = q.pop()
-        label['text'] = question
+        temp = id.pop()
+        number = list(map(int, temp))
+        label['text'] = database.fetch(number,column)
     except:
-        label['text'] = "question not found"
+        maindeck()
     button = tk.Button(frame, text="Show Answer", font=40,
-                       bg=background, fg=foreground, command=lambda: nexttab())
+                       bg=background, fg=foreground, command=lambda: nexttab(number))
     button.place(relx=0.35, rely=0.75, relwidth=0.3, relheight=0.2)
     bt = tk.Button(frame, text="Back", font=20, bg=bannerred, fg="black",
                 command=lambda: maindeck())
@@ -144,22 +132,19 @@ def open_deck():
 
 
 def maindeck():
-    decklist = database.fetch()
-    backimg = tk.PhotoImage(file=backimage)
-    backlabel = tk.Label(root, image=backimg)
-    backlabel.place(relwidth=1, relheight=1)
+    decklist = database.fetch_deck()
 
     deckframe = tk.Frame(root, bg=background, bd=4)
     deckframe.place(relheight=0.75, relwidth=0.9,
                     relx=0.5, rely=0.1, anchor='n')
-    decklabel = tk.Label(deckframe,  bg=bannerbg, fg='black')
+    decklabel = tk.Label(deckframe,  bg=bannerpurple, fg='black')
     decklabel.place(relwidth=1, relheight=0.1)
-    decklabel.config(font=("Courier", 28))
+    decklabel.config(font=(fontype, 28))
     decklabel['text'] = "Decks"
     space = 0.05
-    for x in decklist:
-        button = tk.Button(deckframe, text=x, font=18,
-                           bg=bannerbg, fg="black", command=lambda: open_deck())
+    for i in decklist:
+        button = tk.Button(deckframe, text=i, font=18,
+                           bg=bannerpurple, fg="black", command=lambda i=i:define_deck(i))
         button.place(relx=0.3, rely=0.111+space, relwidth=0.4, relheight=0.1)
         space = space+0.1
     button = tk.Button(deckframe, text='Edit deck', font=18,
@@ -180,15 +165,12 @@ def quit():
 
 
 def main():
-    backimg = tk.PhotoImage(file=backimage)
-    backlabel = tk.Label(root, image=backimg)
-    backlabel.place(relwidth=1, relheight=1)
     button = tk.Button(root, text="Start", font=80,
                        bg=background, fg=foreground, command=lambda: maindeck())
     button.place(relx=0.2, rely=0.4, relwidth=0.2, relheight=0.1)
     label = tk.Label(root, font=50, bg=background, fg=foreground)
     label.place(relwidth=0.4, relheight=0.18, relx=0.2, rely=0.2)
-    label.config(font=("Courier", 40))
+    label.config(font=(fontype, 40))
     label['text'] = "Flash Card World"
 
     
