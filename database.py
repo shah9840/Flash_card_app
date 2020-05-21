@@ -14,7 +14,19 @@ def insert(q,a,d):
     c.execute('''INSERT INTO stack (question,answer,deck,priority,instance) VALUES (?,?,?,?,?)''',[q,a,d,3,0])
     conn.commit()
 
-def fetch():
+def fetch(number,column):
+    cur = conn.cursor()
+    values = ','.join([str(i) for i in number])
+    if column == "question":
+        cur.execute('''SELECT question FROM stack WHERE id = ?''',(values))
+    else:
+        cur.execute('''SELECT answer FROM stack WHERE id = ? ''',[values])
+
+    rows = cur.fetchall()
+    return rows
+
+
+def fetch_deck():
     cur = conn.cursor()
     cur.execute("SELECT deck FROM stack")
  
@@ -23,18 +35,15 @@ def fetch():
     return rows
 
 
-def fetch_prio(x):
+def fetch_id(x):
     cur = conn.cursor()
-    cur.execute('''SELECT question, answer, id FROM stack WHERE priority = 3 and deck LIKE ?''',[x])
+    cur.execute('''SELECT id FROM stack WHERE deck LIKE ? ORDER BY priority ASC;''',[x])
+    id = cur.fetchall()
+    return id
 
-    rows = cur.fetchall()
 
-    q = []
-    a = []
-    i = []
-    for i in range(len(rows)):
-        q.append(rows[i][0])
-        a.append(rows[i][1])
-        # i.append(rows[i][2])
-
-    return q, a
+def prio_update(number,x):
+    cur = conn.cursor()
+    values = ','.join([str(i) for i in number])
+    cur.execute('''UPDATE stack SET priority = ? WHERE id=?''',[x,values])
+    conn.commit()
