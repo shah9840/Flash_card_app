@@ -7,8 +7,7 @@ id integer PRIMARY KEY,
 question text NOT NULL,
 answer text NOT NULL,
 deck text NOT NULL,
-priority integer, 
-instance integer)''')
+priority integer)''')
 
 def insert(q,a,d):
     c.execute('''INSERT INTO stack (question,answer,deck,priority) VALUES (?,?,?,?)''',[q,a,d,3])
