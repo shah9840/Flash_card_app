@@ -76,12 +76,14 @@ def inputdata(qbox, abox, entry):
     database.insert(q, a, d)
     deckedit(entry)
 
-def complete(answer,x):
+
+def complete(answer, x, deck_name):
     database.prio_update(answer,x)
-    open_deck(id)
+    # open_deck(id)
+    define_deck(deck_name)
 
 
-def nexttab(number):
+def nexttab(number, deck_name):
     column = "answer"
     frame = tk.Frame(root, bg='purple', bd=4)
     frame.place(relheight=0.75, relwidth=0.9, relx=0.5, rely=0.1, anchor='n')
@@ -91,25 +93,26 @@ def nexttab(number):
     label['text'] = database.fetch(number,column)
 
     button = tk.Button(frame, text="Very Easy", font=40,
-                       bg=bannergreen, fg='black', command=lambda: complete(number,0))
+                       bg=bannergreen, fg='black', command=lambda: complete(number, 0, deck_name))
     button.place(relx=0.05, rely=0.75, relwidth=0.20, relheight=0.2)
     button = tk.Button(frame, text="Easy", font=40,
-                       bg=bannerblue, fg='black', command=lambda: complete(number,1))
+                       bg=bannerblue, fg='black', command=lambda: complete(number, 1, deck_name))
     button.place(relx=0.29, rely=0.75, relwidth=0.20, relheight=0.2)
     button = tk.Button(frame, text="Medium", font=40,
-                       bg=banneryellow, fg='black', command=lambda: complete(number,2))
+                       bg=banneryellow, fg='black', command=lambda: complete(number, 2, deck_name))
     button.place(relx=0.53, rely=0.75, relwidth=0.20, relheight=0.2)
     button = tk.Button(frame, text="Hard", font=40,
-                       bg=bannerred, fg='black', command=lambda: complete(number,3))
+                       bg=bannerred, fg='black', command=lambda: complete(number, 3, deck_name))
     button.place(relx=0.78, rely=0.75, relwidth=0.20, relheight=0.2)
     
 
 def define_deck(deck_name):
     global id
     id = database.fetch_id(''.join(deck_name))
-    open_deck(id)
+    print(id)
+    open_deck(id, deck_name)
 
-def open_deck(id):
+def open_deck(id, deck_name):
     column = "question"
     frame = tk.Frame(root, bg='violet', bd=4)
     frame.place(relheight=0.75, relwidth=0.9, relx=0.5, rely=0.1, anchor='n')
@@ -123,7 +126,7 @@ def open_deck(id):
     except:
         maindeck()
     button = tk.Button(frame, text="Show Answer", font=40,
-                       bg=background, fg=foreground, command=lambda: nexttab(number))
+                       bg=background, fg=foreground, command=lambda: nexttab(number, deck_name))
     button.place(relx=0.35, rely=0.75, relwidth=0.3, relheight=0.2)
     bt = tk.Button(frame, text="Back", font=20, bg=bannerred, fg="black",
                 command=lambda: maindeck())
@@ -154,6 +157,10 @@ def maindeck():
                        bg=bannerred, fg='black', command=lambda: quit())
     button.place(relx=0.75, rely=0.85, relwidth=0.2, relheight=0.1)
 
+    button = tk.Button(deckframe, text='Reset', font=18,
+                       bg=bannerred, fg='black', command=lambda: database.reset_prio())
+    button.place(relx=0.5, rely=0.85, relwidth=0.2, relheight=0.1)
+
     root.mainloop()
 
 
@@ -178,3 +185,5 @@ def main():
 
 if __name__ == "__main__":
      main()
+
+
