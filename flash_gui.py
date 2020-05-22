@@ -83,7 +83,7 @@ def complete(answer,x):
 
 def nexttab(number):
     column = "answer"
-    frame = tk.Frame(root, bg=background, bd=4)
+    frame = tk.Frame(root, bg='purple', bd=4)
     frame.place(relheight=0.75, relwidth=0.9, relx=0.5, rely=0.1, anchor='n')
     label = tk.Label(frame, font=50, bg=foreground, fg=background)
     label.place(relwidth=1, relheight=0.7)
@@ -111,7 +111,7 @@ def define_deck(deck_name):
 
 def open_deck(id):
     column = "question"
-    frame = tk.Frame(root, bg=bannerpurple, bd=4)
+    frame = tk.Frame(root, bg='violet', bd=4)
     frame.place(relheight=0.75, relwidth=0.9, relx=0.5, rely=0.1, anchor='n')
     label = tk.Label(frame, font=50, bg=background, fg=foreground)
     label.place(relwidth=1, relheight=0.7)
@@ -137,14 +137,14 @@ def maindeck():
     deckframe = tk.Frame(root, bg=background, bd=4)
     deckframe.place(relheight=0.75, relwidth=0.9,
                     relx=0.5, rely=0.1, anchor='n')
-    decklabel = tk.Label(deckframe,  bg=bannerpurple, fg='black')
+    decklabel = tk.Label(deckframe,  bg='#4afdaf', fg='black')
     decklabel.place(relwidth=1, relheight=0.1)
     decklabel.config(font=(fontype, 28))
     decklabel['text'] = "Decks"
     space = 0.05
     for i in decklist:
         button = tk.Button(deckframe, text=i, font=18,
-                           bg=bannerpurple, fg="black", command=lambda i=i:define_deck(i))
+                           bg='violet', fg="black", command=lambda i=i:define_deck(i))
         button.place(relx=0.3, rely=0.111+space, relwidth=0.4, relheight=0.1)
         space = space+0.1
     button = tk.Button(deckframe, text='Edit deck', font=18,
