@@ -6,9 +6,9 @@ TO VIEW THE DATABASE TABLE NAMED STACK:
 
 $ python3 database.py
 $ sqlite3 cards.db
-> .header on
-> .mode column
-> SELECT * FROM stack;
+> .header on\n
+> .mode column\n
+> SELECT * FROM stack;\n
 
 
 TO RUN THE APPLICATION:
