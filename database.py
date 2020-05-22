@@ -11,7 +11,7 @@ priority integer,
 instance integer)''')
 
 def insert(q,a,d):
-    c.execute('''INSERT INTO stack (question,answer,deck,priority,instance) VALUES (?,?,?,?,?)''',[q,a,d,3,0])
+    c.execute('''INSERT INTO stack (question,answer,deck,priority) VALUES (?,?,?,?)''',[q,a,d,3])
     conn.commit()
 
 def fetch(number,column):
