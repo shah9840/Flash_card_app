@@ -75,6 +75,7 @@ def inputdata(qbox, abox, entry):
     d = entry.get()
     database.insert(q, a, d)
     deckedit(entry)
+    # maindeck()
 
 
 def complete(answer, x, deck_name):
@@ -109,7 +110,7 @@ def nexttab(number, deck_name):
 def define_deck(deck_name):
     global id
     id = database.fetch_id(''.join(deck_name))
-    print(id)
+    # print(id)
     open_deck(id, deck_name)
 
 def open_deck(id, deck_name):
@@ -121,10 +122,15 @@ def open_deck(id, deck_name):
     label.config(font=(fontype, cardfontsize))
     try:
         temp = id.pop()
+        # print(temp)
         number = list(map(int, temp))
+        # print(number)
         label['text'] = database.fetch(number,column)
+        # print(label['text'])
     except:
+        # print("main deck")
         maindeck()
+    
     button = tk.Button(frame, text="Show Answer", font=40,
                        bg=background, fg=foreground, command=lambda: nexttab(number, deck_name))
     button.place(relx=0.35, rely=0.75, relwidth=0.3, relheight=0.2)

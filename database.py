@@ -19,7 +19,7 @@ def fetch(number,column):
     values = ','.join([str(i) for i in number])
     # print(values)
     if column == "question":
-        cur.execute('''SELECT question FROM stack WHERE id = ?''',(values))
+        cur.execute('''SELECT question FROM stack WHERE id = ?''',[values])
     else:
         cur.execute('''SELECT answer FROM stack WHERE id = ? ''',[values])
 
@@ -59,3 +59,9 @@ def prio_update(number, x):
     values = ','.join([str(i) for i in number])
     cur.execute('''UPDATE stack SET priority = ? WHERE id=?''', [x, values])
     conn.commit()
+<<<<<<< HEAD
+=======
+    
+# fetch_id("chem")
+# reset_prio()
+>>>>>>> dfb67a2dd43b5abe818fb65834720537556afdfe
