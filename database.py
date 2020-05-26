@@ -59,6 +59,3 @@ def prio_update(number, x):
     values = ','.join([str(i) for i in number])
     cur.execute('''UPDATE stack SET priority = ? WHERE id=?''', [x, values])
     conn.commit()
-    
-# fetch_id("chem")
-reset_prio()
