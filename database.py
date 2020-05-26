@@ -19,7 +19,7 @@ def fetch(number,column):
     values = ','.join([str(i) for i in number])
     # print(values)
     if column == "question":
-        cur.execute('''SELECT question FROM stack WHERE id = ?''',(values))
+        cur.execute('''SELECT question FROM stack WHERE id = ?''',[values])
     else:
         cur.execute('''SELECT answer FROM stack WHERE id = ? ''',[values])
 
@@ -61,4 +61,4 @@ def prio_update(number, x):
     conn.commit()
     
 # fetch_id("chem")
-reset_prio()
+# reset_prio()
