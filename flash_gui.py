@@ -36,6 +36,9 @@ def createdeck():
     button = tk.Button(frame, text='Submit', font=20,
                        bg=bannergrey, fg='black', command=lambda: deckedit(entry))
     button.place(relx=0.35, rely=0.26, relwidth=0.2, relheight=0.1)
+    button = tk.Button(frame, text='Delete', font=20,
+                       bg=bannergrey, fg='black', command=lambda: database.dd(entry.get()))
+    button.place(relx=0.55, rely=0.26, relwidth=0.2, relheight=0.1)
     label = tk.Label(frame, text='Pre Existing decks are:',
                      font=20, bg=bannerpurple, fg='black')
     label.place(relwidth=1, relheight=0.1, rely=0.4)
@@ -81,7 +84,7 @@ def inputdata(qbox, abox, entry):
 def complete(answer, x, deck_name):
     database.prio_update(answer,x)
     # open_deck(id)
-    define_deck(deck_name)
+    define_deck(deck_name,1)
 
 
 def nexttab(number, deck_name):
@@ -107,11 +110,16 @@ def nexttab(number, deck_name):
     button.place(relx=0.78, rely=0.75, relwidth=0.20, relheight=0.2)
     
 
-def define_deck(deck_name):
+def define_deck(deck_name, x):
     global id
-    id = database.fetch_id(''.join(deck_name))
-    # print(id)
-    open_deck(id, deck_name)
+    if x == 0:
+        id = database.fetch_id(''.join(deck_name))
+        if not id:
+            maindeck()
+        else:
+            open_deck(id, deck_name)
+    else:
+        open_deck(id, deck_name)
 
 def open_deck(id, deck_name):
     column = "question"
@@ -122,15 +130,10 @@ def open_deck(id, deck_name):
     label.config(font=(fontype, cardfontsize))
     try:
         temp = id.pop()
-        # print(temp)
         number = list(map(int, temp))
-        # print(number)
         label['text'] = database.fetch(number,column)
-        # print(label['text'])
     except:
-        # print("main deck")
-        maindeck()
-    
+        define_deck(deck_name, 0)
     button = tk.Button(frame, text="Show Answer", font=40,
                        bg=background, fg=foreground, command=lambda: nexttab(number, deck_name))
     button.place(relx=0.35, rely=0.75, relwidth=0.3, relheight=0.2)
@@ -153,7 +156,7 @@ def maindeck():
     space = 0.05
     for i in decklist:
         button = tk.Button(deckframe, text=i, font=18,
-                           bg='violet', fg="black", command=lambda i=i:define_deck(i))
+                           bg='violet', fg="black", command=lambda i=i:define_deck(i,0))
         button.place(relx=0.3, rely=0.111+space, relwidth=0.4, relheight=0.1)
         space = space+0.1
     button = tk.Button(deckframe, text='Edit deck', font=18,

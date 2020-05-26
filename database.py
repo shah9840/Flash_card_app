@@ -27,6 +27,10 @@ def fetch(number,column):
     # print(rows)
     return rows
 
+def dd(deck_name):
+    cur = conn.cursor()
+    cur.execute('''DELETE FROM stack WHERE deck=?''',(deck_name,))
+    conn.commit()
 
 def fetch_deck():
     cur = conn.cursor()
@@ -59,9 +63,6 @@ def prio_update(number, x):
     values = ','.join([str(i) for i in number])
     cur.execute('''UPDATE stack SET priority = ? WHERE id=?''', [x, values])
     conn.commit()
-<<<<<<< HEAD
-=======
-    
+
 # fetch_id("chem")
 # reset_prio()
->>>>>>> dfb67a2dd43b5abe818fb65834720537556afdfe
